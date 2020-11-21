@@ -7,9 +7,7 @@ stri = ''
 
 for s in S:
     stri += s
-    try:
-        if stri[-3:] == 'fox':
-            stri = stri[:-3]
-    except:
-        pass
+    if stri[-3:] == 'fox':
+        stri = stri[:-3]
+
 print(len(stri))
