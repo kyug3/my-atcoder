@@ -8,7 +8,7 @@ A.sort()
 A = [0] + A + [N + 1]
 white = []
 k = float("inf")
-for m in range(M+1):
+for m in range(M + 1):
     dif = A[m + 1] - A[m] - 1
     if dif <= 0:
         continue
