@@ -25,15 +25,11 @@ def ext_gcd(a, b):
 
 
 def my_gcd(a: int, b: int) -> int:
-    if b > a:
-        a, b = b, a
     while b > 0:
         a, b = b, a % b
     return b
 
 def my_gcd2(a, b):
-    if b > a:
-        a, b = b, a
     if b == 0:
         return a
     else:
