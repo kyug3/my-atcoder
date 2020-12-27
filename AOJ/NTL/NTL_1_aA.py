@@ -1,3 +1,5 @@
+N = int(input())
+
 def factorization(x):
     lst = []
     if x == 1:
@@ -20,7 +22,9 @@ def factorization(x):
 
     return lst
 
-factorization(24) 
-
-## [(2, 3), (3, 1)] 
-##  24 = 2^3 * 3^1
+lst = factorization(N)
+ans = [str(N) + ':']
+for x, y in lst:
+    for _ in range(y):
+        ans.append(str(x))
+print(*ans)
