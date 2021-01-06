@@ -10,7 +10,7 @@ def dijkstra(graph, num_node, start):
         dist, node = heapq.heappop(hq)
         if dist > distance[node]:
             continue
-        for n, d in graph[node]:
+        for d, n in graph[node]:
             temp = d + distance[node]
             if temp < distance[n]:
                 distance[n] = temp
