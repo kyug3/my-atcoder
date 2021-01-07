@@ -17,7 +17,7 @@ def dfs_with_stack(start, num_node):
                 continue
             stack.append(y)
 
-def dfs_with_stack(start, num_node):
+def bfs(start, num_node):
     queue = deque([start])
     seen = [False] * (num_node + 1)
     while queue:
