@@ -4,7 +4,7 @@ import heapq
 def dijkstra(graph, num_node, start):
     hq = [(0, start)]
     heapq.heapify(hq)
-    distance = [float('inf')] * num_node
+    distance = [float('inf')] * (num_node + 1)
     distance[start] = 0
     while hq:
         dist, node = heapq.heappop(hq)
