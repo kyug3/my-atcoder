@@ -1,3 +1,6 @@
+am = [[0 if i == j else float('inf') for j in range(N)]
+      for i in range(N)]
+
 def floyd_warshall(num_node, am):
     # am = adjacency matrix
     for k in range(num_node)):
