@@ -11,8 +11,8 @@ def dijkstra(graph, num_node, start):
         if dist > distance[node]:
             continue
         for d, n in graph[node]:
-            temp = d + distance[node]
-            if temp < distance[n]:
-                distance[n] = temp
-                heapq.heappush(hq, (temp, n))
+            now_dist = d + distance[node]
+            if now_dist < distance[n]:
+                distance[n] = now_dist
+                heapq.heappush(hq, (now_dist, n))
     return distance
