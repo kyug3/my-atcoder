@@ -7,9 +7,8 @@ for _ in range(M):
     graph[b].append(a)
 
 ans = 0
-def dfs(parent, seen=False):
-    if not seen:
-        seen = [0] * N
+seen = [0] * N
+def dfs(parent):
     seen[parent] = 1
     if sum(seen) == N:
         global ans
@@ -17,7 +16,7 @@ def dfs(parent, seen=False):
     for n in graph[parent]:
         if seen[n]:
             continue
-        dfs(n, seen)
+        dfs(n)
     seen[parent] = 0
 
 dfs(0)
