@@ -1,4 +1,5 @@
 import sys
+from collections import defaultdict
 input = sys.stdin.readline
 
 def find(x, par):
@@ -32,15 +33,13 @@ for _ in range(L):
     r -= 1; s -= 1
     union(r, s, train)
 
-pars = {}
+pars = defaultdict(int)
 lst = []
 for i in range(N):
     k = str(find(i, road)) + ' ' + str(find(i, train))
-    if k in pars:
-        pars[k] += 1
-    else:
-        pars[k] = 1
+    pars[k] += 1
     lst.append(k)
+
 ans = []
 for k in lst:
     ans.append(pars[k])
