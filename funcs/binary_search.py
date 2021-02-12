@@ -1,5 +1,3 @@
-lst = []
-
 def is_ok(idx, key):
     if lst[idx] >= key:
         return True
