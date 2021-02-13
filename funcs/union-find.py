@@ -20,5 +20,10 @@ def size(x):
     # xが属する集合の要素数
     return -par[find(x)]
 
+def members(x):
+    # xが属する集合に含まれる要素のリスト
+    root = find(x)
+    return [i for i in range(N) if find(x) == root]
+
 N = int(input())
 par = [-1] * N
