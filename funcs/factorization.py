@@ -1,23 +1,26 @@
-def factorization(n):
-    arr = []
-    temp = n
-    for i in range(2, int(-(-n**0.5//1))+1):
-        if temp%i==0:
-            cnt=0
-            while temp%i==0:
-                cnt+=1
-                temp //= i
-            arr.append([i, cnt])
+def factorization(x):
+    lst = []
+    if x == 1:
+        lst.append((1, 1))
+        return lst
+    
+    for n in range(2, x + 1):
+        if n ** 2 > x:
+            break
+        count = 0
+        while x > 1 and x % n == 0:
+            x //= n
+            count += 1
+        if count > 0:
+            lst.append((n, count))
+        if x == 1:
+            break
+    if x > 1:
+        lst.append((x, 1))
 
-    if temp!=1:
-        arr.append([temp, 1])
-
-    if arr==[]:
-        arr.append([n, 1])
-
-    return arr
+    return lst
 
 factorization(24) 
 
-## [[2, 3], [3, 1]] 
+## [(2, 3), (3, 1)] 
 ##  24 = 2^3 * 3^1
