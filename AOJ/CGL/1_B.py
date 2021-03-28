@@ -50,3 +50,11 @@ def projection(segment: Segment, point: Vector):
 
 def reflect(segment: Segment, point:Vector):
     return point + (projection(segment, point) - point) * 2
+
+x1, y1, x2, y2 = map(int, input().split())
+s = Segment(Vector(x1, y1), Vector(x2, y2))
+for _ in range(int(input())):
+    x, y = map(int, input().split())
+    p = Vector(x, y)
+    z = reflect(s, p)
+    print(z.x, z.y)
