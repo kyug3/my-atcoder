@@ -29,6 +29,9 @@ class Vector:
     def is_orthogonal(self, other):
         # 直交判定
         return self.dot(other) == 0.0
+    
+    def is_parallel(self, other):
+        return self.cross(other) == 0.0
 
     def scale(self, n):
         # スカラー倍
@@ -41,6 +44,7 @@ class Segment:
 
 
 def projection(segment: Segment, point: Vector):
+    # 線分p1p2に点pから垂線を引いた交点xを求める
     base = segment.p2 - segment.p1
     hypo = point - segment.p1
     r = hypo.dot(base) / base.norm()
@@ -48,4 +52,25 @@ def projection(segment: Segment, point: Vector):
     return x
 
 def reflect(segment: Segment, point:Vector):
+    # 線分p1p2を対称軸として点pと線対称の位置にある点xを求める
     return point + (projection(segment, point) - point) * 2
+
+def counter_clockwise(v1, v2):
+    # 3点 p0, p1, p2について
+    # v1 = p1 - p0
+    # v2 = p2 - p0
+    if v1.cross(v2) > 0:
+        # p1からp2が反時計回り
+        return 1
+    elif v1.cross(v2) < 0:
+        # 時計回り
+        return 2
+    elif v1.dot(v2) < 0:
+        # p2, p0, p1の順で同一直線上
+        return 3
+    elif v2.norm() > v1.norm():
+        # p0, p1, p2の順で同一直線上
+        return 4
+    else:
+        # p2が線分p0p1上
+        return 5
