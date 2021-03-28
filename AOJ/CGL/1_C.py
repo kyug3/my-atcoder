@@ -34,18 +34,18 @@ class Vector:
         # スカラー倍
         return Vector(self.x * n, self.y * n)
 
-class Segment:
-    def __init__(self, v1, v2):
-        self.p1 = v1
-        self.p2 = v2
-
-
-def projection(segment: Segment, point: Vector):
-    base = segment.p2 - segment.p1
-    hypo = point - segment.p1
-    r = hypo.dot(base) / base.norm()
-    x = base.scale(r) + segment.p1
-    return x
-
-def reflect(segment: Segment, point:Vector):
-    return point + (projection(segment, point) - point) * 2
+x0, y0, x1, y1 = map(int, input().split())
+v1 = Vector(x1 - x0, y1 - y0)
+for i in range(int(input())):
+    x2, y2 = map(int, input().split())
+    v2 = Vector(x2 - x0, y2 - y0)
+    if v1.cross(v2) > 0:
+        print('COUNTER_CLOCKWISE')
+    elif v1.cross(v2) < 0:
+        print('CLOCKWISE')
+    elif v1.dot(v2) < 0:
+        print('ONLINE_BACK')
+    elif v2.norm() > v1.norm():
+        print('ONLINE_FRONT')
+    else:
+        print('ON_SEGMENT')
