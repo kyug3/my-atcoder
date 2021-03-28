@@ -35,14 +35,24 @@ class Vector:
         # スカラー倍
         return Vector(self.x * n, self.y * n)
 
+class Segment:
+    def __init__(self, v1, v2):
+        self.p1 = v1
+        self.p2 = v2
+
+
+def projection(segment: Segment, point: Vector):
+    base = segment.p2 - segment.p1
+    hypo = point - segment.p1
+    r = hypo.dot(base) / base.norm()
+    x = base.scale(r) + segment.p1
+    return x
+
 x1, y1, x2, y2 = map(int, input().split())
-s1 = Vector(x1, y1)
-s2 = Vector(x2, y2)
-base = s2 - s1
+s = Segment(Vector(x1, y1), Vector(x2, y2))
 q = int(input())
 for _ in range(q):
     x, y = map(int, input().split())
-    hypo = Vector(x - x1, y - y1)
-    r = hypo.dot(base) / base.norm()
-    z = base.scale(r) + s1
+    p = Vector(x, y)
+    z = projection(s, p)
     print(z.x, z.y)

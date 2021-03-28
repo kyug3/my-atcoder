@@ -34,3 +34,16 @@ class Vector:
     def scale(self, n):
         # スカラー倍
         return Vector(self.x * n, self.y * n)
+
+class Segment:
+    def __init__(self, v1, v2):
+        self.p1 = v1
+        self.p2 = v2
+
+
+def projection(segment: Segment, point: Vector):
+    base = segment.p2 - segment.p1
+    hypo = point - segment.p1
+    r = hypo.dot(base) / base.norm()
+    x = base.scale(r) + segment.p1
+    return x
