@@ -64,13 +64,14 @@ def counter_clockwise(v1, v2):
         return 1
     elif v1.cross(v2) < 0:
         # 時計回り
-        return 2
+        return -1
     elif v1.dot(v2) < 0:
         # p2, p0, p1の順で同一直線上
-        return 3
+        return 2
     elif v2.norm() > v1.norm():
         # p0, p1, p2の順で同一直線上
-        return 4
+        return -2
     else:
         # p2が線分p0p1上
-        return 5
+        return 0
+
