@@ -37,26 +37,7 @@ class Vector:
         # スカラー倍
         return Vector(self.x * n, self.y * n)
 
-class Segment:
-    def __init__(self, v1, v2):
-        self.p1 = v1
-        self.p2 = v2
-
-
-def projection(segment: Segment, point: Vector):
-    # 線分p1p2に点pから垂線を引いた交点xを求める
-    base = segment.p2 - segment.p1
-    hypo = point - segment.p1
-    r = hypo.dot(base) / base.norm()
-    x = base.scale(r) + segment.p1
-    return x
-
-def reflect(segment: Segment, point:Vector):
-    # 線分p1p2を対称軸として点pと線対称の位置にある点xを求める
-    return point + (projection(segment, point) - point) * 2
-
-def ccw(p0, p1, p2):
-    # counter clockwise
+def counter_clockwise(p0, p1, p2):
     # 3点 p0, p1, p2について
     # v1 = p1 - p0
     # v2 = p2 - p0
@@ -80,5 +61,10 @@ def ccw(p0, p1, p2):
 
 def intersect(p1, p2, p3, p4):
     # 線分p1p2と線分p3p4の交差判定
-    return (ccw(p1, p2, p3) * ccw(p1, p2, p4) <= 0
-            and ccw(p3, p4, p1) * ccw(p3, p4, p2) <= 0)
+    return (counter_clockwise(p1, p2, p3) * counter_clockwise(p1, p2, p4) <= 0
+            and counter_clockwise(p3, p4, p1) * counter_clockwise(p3, p4, p2) <= 0)
+
+for _ in range(int(input())):
+    x0, y0, x1, y1, x2, y2, x3, y3 = map(int, input().split())
+    p1, p2, p3, p4 = Vector(x0, y0), Vector(x1, y1), Vector(x2, y2), Vector(x3, y3)
+    print(1 if intersect(p1, p2, p3, p4) else 0)
