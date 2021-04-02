@@ -67,10 +67,8 @@ class Polygon:
             if x == 1:
                 return False
         return True
-    
+
     def contains(self, point):
-        # 点が多角形に内包されるか判定
-        # 2 内包, 1 辺上, 0 それ以外
         n = len(self.points)
         x = False
         for i in range(n):
@@ -156,3 +154,15 @@ def dist_SS(s1, s2):
                 dist_SP(s1, s2.p2),
                 dist_SP(s2, s1.p1),
                 dist_SP(s2, s1.p2)))
+
+vs = []
+for _ in range(int(input())):
+    x, y = map(int, input().split())
+    vs.append(Vector(x, y))
+
+ply = Polygon(vs)
+
+for _ in range(int(input())):
+    x, y = map(int, input().split())
+    p = Vector(x, y)
+    print(ply.contains(p))
