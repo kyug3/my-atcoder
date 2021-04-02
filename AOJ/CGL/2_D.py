@@ -48,18 +48,10 @@ class Segment:
         self.p1 = v1
         self.p2 = v2
 
-
-def projection(segment: Segment, point: Vector):
-    # 線分p1p2に点pから垂線を引いた交点xを求める
-    base = segment.p2 - segment.p1
-    hypo = point - segment.p1
-    r = hypo.dot(base) / base.norm()
-    x = base.scale(r) + segment.p1
-    return x
-
-def reflect(segment: Segment, point:Vector):
-    # 線分p1p2を対称軸として点pと線対称の位置にある点xを求める
-    return point + (projection(segment, point) - point) * 2
+def intersect(p1, p2, p3, p4):
+    # 線分p1p2と線分p3p4の交差判定
+    return (ccw(p1, p2, p3) * ccw(p1, p2, p4) <= 0
+            and ccw(p3, p4, p1) * ccw(p3, p4, p2) <= 0)
 
 def ccw(p0, p1, p2):
     # counter clockwise
@@ -81,30 +73,14 @@ def ccw(p0, p1, p2):
     else:
         # p2が線分p0p1上
         return 0
-
-def intersect(p1, p2, p3, p4):
-    # 線分p1p2と線分p3p4の交差判定
-    return (ccw(p1, p2, p3) * ccw(p1, p2, p4) <= 0
-            and ccw(p3, p4, p1) * ccw(p3, p4, p2) <= 0)
-
-def cross_point(p1, p2, p3, p4) -> Vector:
-    # 線分p1p2と線分p3p4の交点
-    s1 = Segment(p1, p2)
-    s2 = Segment(p3, p4)
-    base = s2.p2 - s2.p1
-    d1 = abs(base.cross(s1.p1 - s2.p1))
-    d2 = abs(base.cross(s1.p2 - s2.p1))
-    t = d1 / (d1 + d2)
-    return s1.p1 + (s1.p2 - s1.p1) * t
+    
 
 def dist_LP(line: Segment, point):
-    # 点p と 直線p1p2 の距離
     p = line.p2 -line.p1
     return (abs((line.p2 - line.p1).cross(point - line.p1))
            / p.length())
 
 def dist_SP(s, p):
-    # 線分sと点p の距離
     if (s.p2 - s.p1).dot(p - s.p1) < 0:
         p -= s.p1
         return p.length()
@@ -114,9 +90,14 @@ def dist_SP(s, p):
     return dist_LP(s, p)
 
 def dist_SS(s1, s2):
-    # 線分と線分の距離
     if intersect(s1.p1, s1.p2, s2.p1, s2.p2): return 0
     return min((dist_SP(s1, s2.p1),
                 dist_SP(s1, s2.p2),
                 dist_SP(s2, s1.p1),
                 dist_SP(s2, s1.p2)))
+
+for _ in range(int(input())):
+    x1, y1, x2, y2, x3, y3, x4, y4 = map(int, input().split())
+    s1 = Segment(Vector(x1, y1), Vector(x2, y2))
+    s2 = Segment(Vector(x3, y3), Vector(x4, y4))
+    print(dist_SS(s1, s2))
