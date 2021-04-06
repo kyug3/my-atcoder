@@ -1,60 +1,32 @@
-# 射影
-class Vector:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+def dot(a: list, b: list) -> int:
+    # 内積
+    return sum(x * y for x, y in zip(a, b))
 
-    def norm(self):
-        return self.x ** 2 + self.y ** 2
+def norm(a: list) -> int:
+    return a[0] ** 2 + a[1] ** 2
 
-    def __add__(self, other):
-        return Vector(self.x + other.x, self.y + other.y)
-    
-    def __sub__(self, other):
-        return Vector(self.x - other.x, self.y - other.y)
+def add(a, b):
+    return [x + y for x, y in zip(a, b)]
 
-    def __mul__(self, other):
-        return Vector(other * self.x, other * self.y)
+def subtract(a, b):
+    return [x - y for x, y in zip(a, b)]
 
-    def __truediv__(self, other):
-        return Vector(other / self.x, other / self.y)
+def scale(a, x):
+    return [x * i for i in a]
 
-    def dot(self, other):
-        # 内積
-        return self.x * other.x + self.y * other.y
+def project(p1, p2, p3):
+    # 線分p1p2に点p3から垂線を引いた交点xを求める
+    base = subtract(p2, p1)
+    hypo = subtract(p3, p1)
+    r = dot(base, hypo) / norm(base)
+    return add(scale(base, r), p1)
 
-    def cross(self, other):
-        # 外積
-        return self.x * other.y - self.y * other.x
-    
-    def is_orthogonal(self, other):
-        # 直交判定
-        return self.dot(other) == 0.0
-
-    def scale(self, n):
-        # スカラー倍
-        return Vector(self.x * n, self.y * n)
-
-class Segment:
-    def __init__(self, v1, v2):
-        self.p1 = v1
-        self.p2 = v2
-
-
-def projection(segment: Segment, point: Vector):
-    base = segment.p2 - segment.p1
-    hypo = point - segment.p1
-    r = hypo.dot(base) / base.norm()
-    x = base.scale(r) + segment.p1
-    return x
-
-def reflect(segment: Segment, point:Vector):
-    return point + (projection(segment, point) - point) * 2
+def reflect(p1, p2, p3):
+    return add(p3, scale(subtract(project(p1, p2, p3), p3), 2))
 
 x1, y1, x2, y2 = map(int, input().split())
-s = Segment(Vector(x1, y1), Vector(x2, y2))
+p1 = [x1, y1]
+p2 = [x2, y2]
 for _ in range(int(input())):
-    x, y = map(int, input().split())
-    p = Vector(x, y)
-    z = reflect(s, p)
-    print(z.x, z.y)
+    p3 = list(map(int, input().split()))
+    print(*reflect(p1, p2, p3))

@@ -14,9 +14,12 @@ def subtract(a, b):
 def scale(a, x):
     return [x * i for i in a]
 
-def projection(p1, p2, p3):
-    # 線分p1p2に点pから垂線を引いた交点xを求める
+def project(p1, p2, p3):
+    # 線分p1p2に点p3から垂線を引いた交点xを求める
     base = subtract(p2, p1)
     hypo = subtract(p3, p1)
     r = dot(base, hypo) / norm(base)
     return add(scale(base, r), p1)
+
+def reflect(p1, p2, p3):
+    return add(p3, scale(subtract(project(p1, p2, p3), p3), 2))
