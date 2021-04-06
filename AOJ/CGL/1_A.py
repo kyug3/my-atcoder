@@ -1,6 +1,6 @@
-def dot2(a: list, b: list) -> int:
+def dot(a: list, b: list) -> int:
     # 内積
-    return a[0] * b[0] + a[1] * b[1]
+    return sum(x * y for x, y in zip(a, b))
 
 def norm(a: list) -> int:
     return a[0] ** 2 + a[1] ** 2
@@ -17,7 +17,7 @@ def scale(a, x):
 def projection(p1, p2, p3):
     base = subtract(p2, p1)
     hypo = subtract(p3, p1)
-    r = dot2(base, hypo) / norm(base)
+    r = dot(base, hypo) / norm(base)
     return add(scale(base, r), p1 )
 
 x1, y1, x2, y2 = map(int, input().split())
