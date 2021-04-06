@@ -21,6 +21,9 @@ class Vector:
     def __truediv__(self, other):
         return Vector(other / self.x, other / self.y)
 
+    def __repr__(self):
+        return repr(self.x, self.y)
+
     def dot(self, other):
         # 内積
         return self.x * other.x + self.y * other.y
@@ -52,6 +55,9 @@ class Segment:
 class Polygon:
     def __init__(self, points):
         self.points = points
+
+    def size(self):
+        return len(self.points)
     
     def area(self):
         a = 0
@@ -83,6 +89,41 @@ class Polygon:
             if a.y < EPS and EPS < b.y and a.cross(b) > EPS:
                 x = False if x else True
         return 2 if x else 0
+
+    def andrew_scan(self):
+        if self.size() < 3:
+            return self.points
+
+        u, l = [], []
+        #s = sorted(self.points, key=lambda x: (x.x, x.y)) 
+        s = sorted(self.points, key=lambda x: (x.y, x.x))
+        u.append(s[0])
+        u.append(s[1])
+        l.append(s[-1])
+        l.append(s[-2])
+
+        for i in range(2, len(s)):
+            n = len(u)
+            #while n >= 2 and ccw(u[n-2], u[n-1], s[i]) != -1: 辺上の点を含めない場合
+            while n >= 2 and ccw(u[n-2], u[n-1], s[i]) == 1: 
+                u.pop()
+                n -= 1
+            u.append(s[i])
+
+        for i in range(len(s) - 3, -1, -1):
+            n = len(l)
+            #while n >= 2 and ccw(l[n-2], l[n-1], s[i]) != -1: 辺上の点を含めない場合
+            while n >= 2 and ccw(l[n-2], l[n-1], s[i]) == 1:
+                l.pop()
+                n -= 1
+            l.append(s[i])
+
+        # 反時計回りに並べる
+        l = l[::-1]
+        for i in range(len(u) - 2, 0, -1):
+            l.append(u[i])
+
+        return l
 
 
 def projection(segment: Segment, point: Vector):
