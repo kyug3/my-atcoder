@@ -1,83 +1,58 @@
-class Vector:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+def dot(a: list, b: list) -> int:
+    # 内積
+    return sum(x * y for x, y in zip(a, b))
 
-    def norm(self):
-        return self.x ** 2 + self.y ** 2
+def cross(a, b):
+    return a[0] * b[1] - a[1] * b[0]
 
-    def __add__(self, other):
-        return Vector(self.x + other.x, self.y + other.y)
-    
-    def __sub__(self, other):
-        return Vector(self.x - other.x, self.y - other.y)
+def norm(a: list) -> int:
+    return a[0] ** 2 + a[1] ** 2
 
-    def __mul__(self, other):
-        return Vector(other * self.x, other * self.y)
+def add(a, b):
+    return [x + y for x, y in zip(a, b)]
 
-    def __truediv__(self, other):
-        return Vector(other / self.x, other / self.y)
+def subtract(a, b):
+    return [x - y for x, y in zip(a, b)]
 
-    def dot(self, other):
-        # 内積
-        return self.x * other.x + self.y * other.y
+def scale(a, x):
+    return [x * i for i in a]
 
-    def cross(self, other):
-        # 外積
-        return self.x * other.y - self.y * other.x
-    
-    def is_orthogonal(self, other):
-        # 直交判定
-        return self.dot(other) == 0.0
-    
-    def is_parallel(self, other):
-        return self.cross(other) == 0.0
+def project(p1, p2, p3):
+    # 線分p1p2に点p3から垂線を引いた交点xを求める
+    base = subtract(p2, p1)
+    hypo = subtract(p3, p1)
+    r = dot(base, hypo) / norm(base)
+    return add(scale(base, r), p1)
 
-    def scale(self, n):
-        # スカラー倍
-        return Vector(self.x * n, self.y * n)
+def reflect(p1, p2, p3):
+    # 線分p1p2を対称軸として点p3と線対称の位置にある点xを求める
+    return add(p3, scale(subtract(project(p1, p2, p3), p3), 2))
 
-class Segment:
-    def __init__(self, v1, v2):
-        self.p1 = v1
-        self.p2 = v2
-
-def ccw(v1, v2):
+def ccw(p1, p2, p3):
     # counter clockwise
-    # 3点 p0, p1, p2について
-    # v1 = p1 - p0
-    # v2 = p2 - p0
-    if v1.cross(v2) > 0:
-        # p1からp2が反時計回り
+    # 3点 p1, p2, p3について
+    v1 = subtract(p2, p1)
+    v2 = subtract(p3, p1)
+    if cross(v1, v2) > 0:
+        # p2からp3が反時計回り
         return 1
-    elif v1.cross(v2) < 0:
+    elif cross(v1, v2) < 0:
         # 時計回り
         return -1
-    elif v1.dot(v2) < 0:
-        # p2, p0, p1の順で同一直線上
+    elif dot(v1, v2) < 0:
+        # p3, p1, p2の順で同一直線上
         return 2
-    elif v2.norm() > v1.norm():
-        # p0, p1, p2の順で同一直線上
+    elif norm(v2) > norm(v1):
+        # p1, p2, p3の順で同一直線上
         return -2
     else:
-        # p2が線分p0p1上
+        # p3が線分p1p2上
         return 0
 
 
-
-x0, y0, x1, y1 = map(int, input().split())
-v1 = Vector(x1 - x0, y1 - y0)
-for i in range(int(input())):
-    x2, y2 = map(int, input().split())
-    v2 = Vector(x2 - x0, y2 - y0)
-    ret = ccw(v1, v2)
-    if ret == 1:
-        print('COUNTER_CLOCKWISE')
-    elif ret == -1:
-        print('CLOCKWISE')
-    elif ret == 2:
-        print('ONLINE_BACK')
-    elif ret == -2:
-        print('ONLINE_FRONT')
-    else:
-        print('ON_SEGMENT')
+x1, y1, x2, y2 = map(int, input().split())
+p1 = [x1, y1]
+p2 = [x2, y2]
+for _ in range(int(input())):
+    p3 = list(map(int, input().split()))
+    print(ccw(p1, p2, p3))
