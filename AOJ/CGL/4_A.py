@@ -118,7 +118,6 @@ class Polygon:
                 n -= 1
             l.append(s[i])
 
-        
         # 反時計回りに並べる
         l = l[::-1]
         for i in range(len(u) - 2, 0, -1):

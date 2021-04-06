@@ -95,8 +95,8 @@ class Polygon:
             return self.points
 
         u, l = [], []
-        #s = sorted(self.points, key=lambda x: (x.x, x.y)) 
-        s = sorted(self.points, key=lambda x: (x.y, x.x))
+        #s = sorted(self.points, key=lambda x: (x.x, x.y)) 最も左の点から並べる
+        s = sorted(self.points, key=lambda x: (x.y, x.x)) # 最も下の点から並べる
         u.append(s[0])
         u.append(s[1])
         l.append(s[-1])
