@@ -103,3 +103,12 @@ def dist_SS(p1, p2, p3, p4):
                 dist_SP(p1, p2, p4),
                 dist_SP(p3, p4, p1),
                 dist_SP(p3, p4, p2)))
+
+def area(A):
+    # 多角形の面積
+    # 点の座標のリストを入力とする
+    # [[x1, y1], ..., [xn, yn]]
+    a = 0
+    for i in range(-1, len(A) - 1):
+        a += (A[i][0] - A[i+1][0]) * (A[i][1] + A[i+1][1])
+    return abs(a) / 2
