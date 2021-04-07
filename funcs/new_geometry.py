@@ -60,3 +60,8 @@ def is_parallel(p1, p2, p3, p4):
     v1 = subtract(p2, p1)
     v2 = subtract(p4, p3)
     return cross(v1, v2) == 0.0
+
+def intersect(p1, p2, p3, p4):
+    # 線分p1p2と線分p3p4の交差判定
+    return (ccw(p1, p2, p3) * ccw(p1, p2, p4) <= 0
+            and ccw(p3, p4, p1) * ccw(p3, p4, p2) <= 0)
