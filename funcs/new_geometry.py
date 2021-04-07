@@ -213,3 +213,11 @@ def convex_cut(A, p1, p2):
         if c2 > -EPS:
             Q.append(a2)
     return Q
+
+
+def rotate_point(p, theta):
+    # 原点から点pへの線分を反時計回りにthetaだけ回転
+    # theta は弧度法
+    # 度数法からは angle * (math.pi / 180) で変換しておく
+    return (p[0] * math.cos(theta) - p[1] * math.sin(theta),
+            p[0] * math.sin(theta) + p[1] * math.cos(theta))
