@@ -123,3 +123,19 @@ def is_convex(A):
         if x == 1:
             return False
     return True
+
+def contains(A, p):
+    # 点が多角形に内包されるか判定
+    # 2 内包, 1 辺上, 0 それ以外
+    n = len(A)
+    x = False
+    for i in range(n):
+        a = subtract(A[i], p)
+        b = subtract(A[(i+1) % n], p)
+        if abs(cross(a, b)) < EPS  and dot(a, b) < EPS:
+            return 1
+        if a[1] > b[1]:
+            a, b = b, a
+        if a[1] < EPS and EPS < b[1] and cross(a, b) > EPS:
+            x = False if x else True
+    return 2 if x else 0
