@@ -1,3 +1,6 @@
+import math
+EPS = 1e-10
+
 def dot(a: list, b: list) -> int:
     # 内積
     return sum(x * y for x, y in zip(a, b))
@@ -7,6 +10,9 @@ def cross(a, b):
 
 def norm(a: list) -> int:
     return a[0] ** 2 + a[1] ** 2
+
+def length(a):
+    return math.sqrt(sum(x ** 2 for x in a))
 
 def add(a, b):
     return [x + y for x, y in zip(a, b)]
@@ -72,3 +78,28 @@ def cross_point(p1, p2, p3, p4):
     d2 = abs(cross(base, subtract(p2, p3)))
     t = d1 / (d1 + d2)
     return add(p1, scale(subtract(p2, p1), t))
+
+def dist_LP(p1, p2, p3):
+    # p1p2を通る直線 と 点p3の距離
+    p = subtract(p2, p1)
+    return abs(cross(subtract(p2, p1), subtract(p3, p1))) / length(p)
+
+
+def dist_SP(p1, p2, p3):
+    # 線分p1p2と点p3の距離
+    if dot(subtract(p2, p1), subtract(p3, p1)) < 0:
+        p3 = subtract(p3, p1)
+        return length(p3)
+    if dot(subtract(p1, p2), subtract(p3, p2)) < 0:
+        p3 = subtract(p3, p2)
+        return length(p3)
+    return dist_LP(p1, p2, p3)
+
+
+def dist_SS(p1, p2, p3, p4):
+    # 線分p1p2と線分p3p4の距離
+    if intersect(p1, p2, p3, p4): return 0
+    return min((dist_SP(p1, p2, p3),
+                dist_SP(p1, p2, p4),
+                dist_SP(p3, p4, p1),
+                dist_SP(p3, p4, p2)))
