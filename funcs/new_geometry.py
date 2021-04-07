@@ -65,3 +65,10 @@ def intersect(p1, p2, p3, p4):
     # 線分p1p2と線分p3p4の交差判定
     return (ccw(p1, p2, p3) * ccw(p1, p2, p4) <= 0
             and ccw(p3, p4, p1) * ccw(p3, p4, p2) <= 0)
+
+def cross_point(p1, p2, p3, p4):
+    base = subtract(p4, p3)
+    d1 = abs(cross(base, subtract(p1, p3)))
+    d2 = abs(cross(base, subtract(p2, p3)))
+    t = d1 / (d1 + d2)
+    return add(p1, scale(subtract(p2, p1), t))
