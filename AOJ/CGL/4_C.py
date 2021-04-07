@@ -73,6 +73,8 @@ def intersect(p1, p2, p3, p4):
             and ccw(p3, p4, p1) * ccw(p3, p4, p2) <= 0)
 """
 def cross_point(p1, p2, p3, p4):
+    #if not intersect(p1, p2, p3, p4):
+    #    return False
     base = subtract(p4, p3)
     d1 = abs(cross(base, subtract(p1, p3)))
     d2 = abs(cross(base, subtract(p2, p3)))
@@ -213,3 +215,15 @@ def convex_cut(A, p1, p2):
         if c2 > -EPS:
             Q.append(a2)
     return Q
+
+A = []
+n = int(input())
+for _ in range(n):
+    x, y = map(int, input().split())
+    A.append([x, y])
+m = int(input())
+for _ in range(m):
+    x1, y1, x2, y2 = map(int, input().split())
+    p1 = [x1, y1]; p2 = [x2, y2]
+    Q = convex_cut(A, p1, p2)
+    print(area(Q))
