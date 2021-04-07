@@ -139,3 +139,36 @@ def contains(A, p):
         if a[1] < EPS and EPS < b[1] and cross(a, b) > EPS:
             x = False if x else True
     return 2 if x else 0
+
+def andrew_scan(A):
+    if len(A) < 3:
+        return A
+
+    u, l = [], []
+    #s = sorted(self.points, key=lambda x: (x.x, x.y)) 最も左の点から並べる
+    s = sorted(A, key=lambda x: (x[1], x[0])) # 最も下の点から並べる
+    u.append(s[0]); u.append(s[1])
+    l.append(s[-1]); l.append(s[-2])
+
+    for i in range(2, len(s)):
+        n = len(u)
+        #while n >= 2 and ccw(u[n-2], u[n-1], s[i]) != -1: 辺上の点を含めない場合
+        while n >= 2 and ccw(u[n-2], u[n-1], s[i]) == 1: 
+            u.pop()
+            n -= 1
+        u.append(s[i])
+
+    for i in range(len(s) - 3, -1, -1):
+        n = len(l)
+        #while n >= 2 and ccw(l[n-2], l[n-1], s[i]) != -1: 辺上の点を含めない場合
+        while n >= 2 and ccw(l[n-2], l[n-1], s[i]) == 1:
+            l.pop()
+            n -= 1
+        l.append(s[i])
+
+    # 反時計回りに並べる
+    l = l[::-1]
+    for i in range(len(u) - 2, 0, -1):
+        l.append(u[i])
+
+    return l
