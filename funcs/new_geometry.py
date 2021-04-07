@@ -140,35 +140,47 @@ def contains(A, p):
             x = False if x else True
     return 2 if x else 0
 
-def andrew_scan(A):
-    if len(A) < 3:
-        return A
+def convex_hull(A):
+    def cross3(a, b, c):
+        return (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])
+    A = sorted(A, key=lambda x: (x[1], x[0]))
+    ret = []
+    n = len(A)
+    for p in A:
+        while len(ret) > 1 and cross3(ret[-1], ret[-2], p) > 0:
+            ret.pop()
+        ret.append(p)
+    t = len(ret)
+    for i in range(n-2, -1, -1):
+        p = A[i]
+        while len(ret) > t and cross3(ret[-1], ret[-2], p) > 0:
+            ret.pop()
+        ret.append(p)
+    return ret[:-1]
 
-    u, l = [], []
-    #s = sorted(self.points, key=lambda x: (x.x, x.y)) 最も左の点から並べる
-    s = sorted(A, key=lambda x: (x[1], x[0])) # 最も下の点から並べる
-    u.append(s[0]); u.append(s[1])
-    l.append(s[-1]); l.append(s[-2])
+def calipers(A):
+    def dist(a, b):
+        return math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2)
+    def cross4(a, b, c, d):
+        return (b[0] - a[0]) * (d[1] - c[1]) - (b[1] - a[1]) * (d[0] - c[0])
+            
+    l = convex_hull(A)
+    n = len(l)
+    if n == 2:
+        return dist(l[0], l[1])
+    i = j = 0
+    for k in range(n):
+        if l[k][0] < l[i][0]:
+            i = k
+        if l[j][0] < l[k][0]:
+            j = k
+    res = 0
+    si = i; sj = j
+    while i != sj or j != si:
+        res = max(res, dist(l[i], l[j]))
+        if cross4(l[i], l[i-n+1], l[j], l[j-n+1]) < 0:
+            i = (i + 1) % n
+        else:
+            j = (j + 1) % n
+    return res
 
-    for i in range(2, len(s)):
-        n = len(u)
-        #while n >= 2 and ccw(u[n-2], u[n-1], s[i]) != -1: 辺上の点を含めない場合
-        while n >= 2 and ccw(u[n-2], u[n-1], s[i]) == 1: 
-            u.pop()
-            n -= 1
-        u.append(s[i])
-
-    for i in range(len(s) - 3, -1, -1):
-        n = len(l)
-        #while n >= 2 and ccw(l[n-2], l[n-1], s[i]) != -1: 辺上の点を含めない場合
-        while n >= 2 and ccw(l[n-2], l[n-1], s[i]) == 1:
-            l.pop()
-            n -= 1
-        l.append(s[i])
-
-    # 反時計回りに並べる
-    l = l[::-1]
-    for i in range(len(u) - 2, 0, -1):
-        l.append(u[i])
-
-    return l
