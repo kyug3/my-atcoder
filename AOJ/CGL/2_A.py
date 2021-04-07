@@ -1,50 +1,75 @@
-class Vector:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+def dot(a: list, b: list) -> int:
+    # 内積
+    return sum(x * y for x, y in zip(a, b))
 
-    def norm(self):
-        return self.x ** 2 + self.y ** 2
+def cross(a, b):
+    return a[0] * b[1] - a[1] * b[0]
 
-    def __add__(self, other):
-        return Vector(self.x + other.x, self.y + other.y)
-    
-    def __sub__(self, other):
-        return Vector(self.x - other.x, self.y - other.y)
+def norm(a: list) -> int:
+    return a[0] ** 2 + a[1] ** 2
 
-    def __mul__(self, other):
-        return Vector(other * self.x, other * self.y)
+def add(a, b):
+    return [x + y for x, y in zip(a, b)]
 
-    def __truediv__(self, other):
-        return Vector(other / self.x, other / self.y)
+def subtract(a, b):
+    return [x - y for x, y in zip(a, b)]
 
-    def dot(self, other):
-        # 内積
-        return self.x * other.x + self.y * other.y
+def scale(a, x):
+    return [x * i for i in a]
 
-    def cross(self, other):
-        # 外積
-        return self.x * other.y - self.y * other.x
-    
-    def is_orthogonal(self, other):
-        # 直交判定
-        return self.dot(other) == 0.0
-    
-    def is_parallel(self, other):
-        # 平行判定
-        return self.cross(other) == 0.0
+def project(p1, p2, p3):
+    # 線分p1p2に点p3から垂線を引いた交点xを求める
+    base = subtract(p2, p1)
+    hypo = subtract(p3, p1)
+    r = dot(base, hypo) / norm(base)
+    return add(scale(base, r), p1)
 
-    def scale(self, n):
-        # スカラー倍
-        return Vector(self.x * n, self.y * n)
+def reflect(p1, p2, p3):
+    # 線分p1p2を対称軸として点p3と線対称の位置にある点xを求める
+    return add(p3, scale(subtract(project(p1, p2, p3), p3), 2))
+
+def ccw(p1, p2, p3):
+    # counter clockwise
+    # 3点 p1, p2, p3について
+    v1 = subtract(p2, p1)
+    v2 = subtract(p3, p1)
+    if cross(v1, v2) > 0:
+        # p2からp3が反時計回り
+        return 1
+    elif cross(v1, v2) < 0:
+        # 時計回り
+        return -1
+    elif dot(v1, v2) < 0:
+        # p3, p1, p2の順で同一直線上
+        return 2
+    elif norm(v2) > norm(v1):
+        # p1, p2, p3の順で同一直線上
+        return -2
+    else:
+        # p3が線分p1p2上
+        return 0
+
+def is_orthogonal(p1, p2, p3, p4):
+    # p1p2を通る直線とp3p4を通る直線が直交するか判定
+    v1 = subtract(p2, p1)
+    v2 = subtract(p4, p3)
+    return dot(v1, v2) == 0.0
+
+def is_parallel(p1, p2, p3, p4):
+    # p1p2を通る直線とp3p4を通る直線が平行か判定
+    v1 = subtract(p2, p1)
+    v2 = subtract(p4, p3)
+    return cross(v1, v2) == 0.0
 
 for _ in range(int(input())):
     i = list(map(int, input().split()))
-    v1 = Vector(i[0] - i[2], i[1] - i[3])
-    v2 = Vector(i[4] - i[6], i[5] - i[7])
-    if v1.is_parallel(v2):
+    p1 = [i[0], i[1]]
+    p2 = [i[2], i[3]]
+    p3 = [i[4], i[5]]
+    p4 = [i[6], i[7]]
+    if is_parallel(p1, p2, p3, p4):
         print(2)
-    elif v1.is_orthogonal(v2):
+    elif is_orthogonal(p1, p2, p3, p4):
         print(1)
     else:
         print(0)

@@ -48,3 +48,15 @@ def ccw(p1, p2, p3):
     else:
         # p3が線分p1p2上
         return 0
+
+def is_orthogonal(p1, p2, p3, p4):
+    # p1p2を通る直線とp3p4を通る直線が直交するか判定
+    v1 = subtract(p2, p1)
+    v2 = subtract(p4, p3)
+    return dot(v1, v2) == 0.0
+
+def is_parallel(p1, p2, p3, p4):
+    # p1p2を通る直線とp3p4を通る直線が平行か判定
+    v1 = subtract(p2, p1)
+    v2 = subtract(p4, p3)
+    return cross(v1, v2) == 0.0
