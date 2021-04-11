@@ -1,3 +1,6 @@
+import heapq
+
+
 N = int(input())
 graph = [[] for _ in range(N)]
 for _ in range(N):
@@ -8,7 +11,6 @@ for _ in range(N):
         v, c = lst[i], lst[i+1]
         graph[u].append((c, v))
 
-import heapq
 
 def dijkstra(graph, num_node, start):
     hq = [(0, start)]
