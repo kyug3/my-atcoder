@@ -5,7 +5,7 @@ input = sys.stdin.readline
 N = int(input())
 C = list(map(int, input().split()))
 graph = [[] for _ in range(N)]
-for _ in range(N-1):
+for _ in range(N - 1):
     a, b = map(int, input().split())
     a -= 1; b -= 1
     graph[a].append(b)
