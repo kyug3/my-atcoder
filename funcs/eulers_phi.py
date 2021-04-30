@@ -21,6 +21,7 @@ def factorization(x):
     return lst
 
 def phi(x):
+    # 自然数xに対して1からxまでの自然数のなかでxと互いに素なものの数
     nums = factorization(x)
     if nums[0] == 1:
         return 1
