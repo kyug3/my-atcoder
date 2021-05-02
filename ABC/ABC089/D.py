@@ -13,8 +13,6 @@ for i in range(H):
     A = li()
     for j in range(W):
         dic[A[j]] = [i+1, j+1]
-Q = int(input())
-
 def cost(p1, p2):
     return sum(abs(a - b) for a, b in zip(p1, p2))
 
@@ -25,7 +23,7 @@ for i in range(1, D+1):
     for j in range(i+D, H*W-D+1, D):
         memo[i%D].append(memo[i%D][-1] + cost(dic[j], dic[j+D]))
 
-ans = 0
+Q = int(input())
 for _ in range(Q):
     L, R = li()
     if L % D:
