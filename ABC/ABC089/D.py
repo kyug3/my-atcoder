@@ -13,11 +13,11 @@ for i in range(H):
     A = li()
     for j in range(W):
         dic[A[j]] = [i+1, j+1]
+
 def cost(p1, p2):
     return sum(abs(a - b) for a, b in zip(p1, p2))
 
 memo = [[0] for _ in range(D)]
-
 for i in range(1, D+1):
     memo[i%D].append(cost(dic[i], dic[i+D]))
     for j in range(i+D, H*W-D+1, D):
