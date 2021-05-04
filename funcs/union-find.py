@@ -23,7 +23,7 @@ def size(x):
 def members(x):
     # xが属する集合に含まれる要素のリスト
     root = find(x)
-    return [i for i in range(N) if find(x) == root]
+    return [i for i in range(N) if find(i) == root]
 
 N = int(input())
 par = [-1] * N
