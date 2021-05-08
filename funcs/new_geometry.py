@@ -160,12 +160,14 @@ def convex_hull(A):
     ret = []
     n = len(A)
     for p in A:
+        # while len(ret) > 1 and cross3(ret[-1], ret[-2], p) >= 0: # 一直線上に高々2点とする場合
         while len(ret) > 1 and cross3(ret[-1], ret[-2], p) > 0:
             ret.pop()
         ret.append(p)
     t = len(ret)
     for i in range(n-2, -1, -1):
         p = A[i]
+        # while len(ret) > t and cross3(ret[-1], ret[-2], p) >= 0:
         while len(ret) > t and cross3(ret[-1], ret[-2], p) > 0:
             ret.pop()
         ret.append(p)
