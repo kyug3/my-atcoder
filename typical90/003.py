@@ -24,9 +24,7 @@ def dfs(n, parent):
         dists[x] = dists[n] + 1
         if ma[0] < dists[x]:
             ma = (dists[x], x)
-
         dfs(x, n)
-    dists[n] = 0
 
 dists = [0] * N
 dfs(0, -1)
