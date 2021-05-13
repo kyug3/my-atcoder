@@ -1,5 +1,6 @@
 def is_ok(idx, key):
-    if lst[idx] >= key:
+    # 条件を満たす最大のindexを求める
+    if lst[idx] > key:
         return True
     else:
         return False
@@ -14,3 +15,7 @@ def binary_search(key):
         else:
             ng = mid
     return ok
+
+# lst = [1, 14, 32, 51, 51, 222]
+# print(binary_search((51)))
+# 5
