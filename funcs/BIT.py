@@ -16,6 +16,15 @@ class BIT:
         while i <= self.size:
             self.tree[i] += x
             i += i & -i
-
+"""
+# 配列Aの転倒数を求める
 N = int(input())
-bit = BIT(N)
+A = li()
+bit = BIT(max(A))
+ans = 0
+for i in range(N):
+    ans += i - bit.sum(A[i]+1)
+    bit.add(A[i]+1, 1)
+
+print(ans)
+"""
