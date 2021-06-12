@@ -42,3 +42,15 @@ x = binomial_coefficients(n, a, t)
 y = binomial_coefficients(n, b, t)
 ans = pow(2, n, mod) - x - y - 1
 print(ans % mod)
+
+
+def pascals_triangle(n):
+    # c[i][j] == iCj
+    c = []
+    for i in range(n):
+        r = [0] * n
+        r[0] = 1
+        for j in range(1, i+1):
+            r[j] = c[-1][j-1] + c[-1][j]
+        c.append(r)
+    return c
