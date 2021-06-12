@@ -9,13 +9,14 @@ def dfs(n, parent):
 def dfs_with_stack(start, num_node):
     stack = [start]
     seen = [False] * (num_node + 1)
+    seen[start] = True
     while stack:
         x = stack.pop()
-        seen[x] = True
         for y in graph[x]:
             if seen[y]:
                 continue
             stack.append(y)
+            seen[y] = True
 
 def bfs(start, num_node):
     queue = deque([start])
