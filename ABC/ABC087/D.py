@@ -8,20 +8,14 @@ from collections import deque
 
 N, M = li()
 edges = [[] for _ in range(N)]
-redges = [[] for _ in range(N)]
-seen = [0] * N
 for _ in range(M):
     l, r, d = li()
     l -= 1
     r -= 1
     edges[l].append((r, d))
-    redges[r].append((l, d))
-    seen[l] = seen[r] = 1
+    edges[r].append((l, -d))
 
-stack = deque()
-for i in range(N):
-    if not redges[i]:
-        stack.append(i)
+stack = deque([i for i in range(N)])
 INF = float('inf')
 dist = [INF] * N
 while stack:
@@ -42,9 +36,5 @@ while stack:
                 print('No')
                 exit()
         stack.append(y)
-for i in range(N):
-    if seen[i]:
-        if dist[i] == INF:
-            print('No')
-            exit()
+
 print('Yes')
