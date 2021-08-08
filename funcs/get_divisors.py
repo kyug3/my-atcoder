@@ -5,8 +5,8 @@ def get_divisors(x: int) -> list:
             break
         if x % i == 0:
             divisors.append(i)
-            divisors.append(x // i)
-    divisors = list(set(divisors))
+            if x // i != i:
+                divisors.append(x // i)
     return divisors
 
-print(get_divisors(4))
+print(get_divisors(5544))
