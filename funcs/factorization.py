@@ -1,3 +1,23 @@
+def min_factors(N):
+    min_fact = [i for i in range(N)]
+    min_fact[0] = min_fact[1] = -1
+    for i in range(2, N):
+        if not min_fact[i] == i:
+             continue
+        for j in range(i, N, i):
+            if min_fact[j] == j:
+                min_fact[j] = i
+    return min_fact
+
+def factorization(x, min_fact):
+    ret = []
+    while x > 1:
+        ret.append(min_fact[x])
+        x //= min_fact[x]
+    return ret
+
+
+"""
 def factorization(x):
     lst = []
     if x == 1:
@@ -21,6 +41,6 @@ def factorization(x):
     return lst
 
 factorization(24) 
-
+"""
 ## [(2, 3), (3, 1)] 
 ##  24 = 2^3 * 3^1
