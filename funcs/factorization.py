@@ -1,4 +1,5 @@
 def min_factors(N):
+    N += 1
     min_fact = [i for i in range(N)]
     min_fact[0] = min_fact[1] = -1
     for i in range(2, N):
