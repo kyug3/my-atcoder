@@ -18,6 +18,16 @@ def factorization(x, min_fact):
     return ret
 
 
+from collections import defaultdict
+def factorization(x, min_fact):
+    dic = defaultdict(int)
+    while x > 1:
+        dic[min_fact[x]] += 1
+        x //= min_fact[x]
+    ret = [(i, j) for i, j in dic.items()]
+    return ret
+
+
 """
 def factorization(x):
     lst = []
