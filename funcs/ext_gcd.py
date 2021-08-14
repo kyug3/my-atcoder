@@ -1,3 +1,11 @@
+"""
+https://atcoder.jp/contests/abc186/editorial/401
+Ax = B mod M となる最小のxを求める問題
+1. d = gcd(A, B, M) とし、A/d, B/d, M/d で置き換える
+2. gcd(A, M) != 1 のとき解なし
+3. gcd(A, M) = 1 のとき mod M における Aの逆元を A^-1とし x = A^-1 B が解
+"""
+
 def ext_gcd(a, b):
     """
     ax + by = gcd(a,b)
