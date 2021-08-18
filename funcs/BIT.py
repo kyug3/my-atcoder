@@ -1,4 +1,5 @@
 class BIT:
+    # 1-indexed
     def __init__(self, n):
         self.size = n
         self.tree = [0] * (n + 1)
