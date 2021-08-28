@@ -11,6 +11,12 @@ class BIT:
             s += self.tree[i]
             i -= i & -i
         return s
+
+    def range_sum(self, l, r):
+        if l == 1:
+            return self.sum(r)
+        else:
+            return self.sum(r) - self.sum(l-1)
   
     def add(self, i, x):
         # i番目の要素にxを足す
