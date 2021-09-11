@@ -1,9 +1,9 @@
-def rot90(A):
+def rotate_right(A):
     return list(zip(*(A[::-1])))
     
-def rm_extra(A, rem='.'):
+def trim_extra(A, rem='.'):
     for _ in range(4):
-        A = rot90(A)
+        A = rotate_right(A)
         while all(x == rem for x in A[-1]):
             A.pop()
     return A
