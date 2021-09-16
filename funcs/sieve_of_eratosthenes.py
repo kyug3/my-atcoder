@@ -13,5 +13,17 @@ def sieve_of_eratosthenes(n):
 
     return primes
 
-A = sieve_of_eratosthenes(5555555)
-print(len(A))
+
+def range_sieve_of_eratosthenes(A, B, primes):
+    # A以上B以下の整数について素数かどうか判定
+    # A[i] : i+Aが整数かどうか
+    # primesは √B 以下の素数のリスト
+    is_prime = [1] * (B - A + 1)
+    for p in primes:
+        if p < A:
+            start = A + (-A) % p
+        else:
+            start = p * 2
+        for i in range(start, B+1, p):
+            is_prime[i-A] = 0
+    return is_prime
