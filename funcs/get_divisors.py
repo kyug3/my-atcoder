@@ -1,6 +1,6 @@
 def get_divisors(x: int) -> list:
     divisors = []
-    for i in range(1, x):
+    for i in range(1, x+1):
         if i * i > x:
             break
         if x % i == 0:
