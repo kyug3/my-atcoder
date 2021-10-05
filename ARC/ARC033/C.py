@@ -1,3 +1,11 @@
+import sys, math
+sys.setrecursionlimit(10**6)
+INF = float('inf')
+mod = 10**9 + 7
+#mod = 998244353
+input = lambda: sys.stdin.readline().rstrip()
+def li(): return list(map(int, input().split()))
+
 class BIT:
     # 1-indexed
     def __init__(self, n):
@@ -41,30 +49,13 @@ class BIT:
             len = len >> 1
         return x + 1
 
-
-class RangeUpdate:
-    def __init__(self, n):
-        self.BIT0 = BIT(n + 1)
-        self.BIT1 = BIT(n + 1)
-
-    def add(self, l, r, x):
-        # [l, r]にxを加算
-        self.BIT0.add(l, -x*(l-1))
-        self.BIT0.add(r+1, x*r)
-        self.BIT1.add(l, x)
-        self.BIT1.add(r+1, -x)
-
-    def sum(self, i):
-        return self.BIT0.sum(i) + self.BIT1.sum(i) * i
-"""
-# 配列Aの転倒数を求める
-N = int(input())
-A = li()
-bit = BIT(max(A))
-ans = 0
-for i in range(N):
-    ans += i - bit.sum(A[i]+1)
-    bit.add(A[i]+1, 1)
-
-print(ans)
-"""
+Q = int(input())
+bit = BIT(200000)
+for _ in range(Q):
+    t, x = li()
+    if t == 1:
+        bit.add(x, 1)
+    else:
+        ans = bit.lower_bound(x)
+        print(ans)
+        bit.add(ans, -1)
