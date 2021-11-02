@@ -38,6 +38,8 @@ def factorization(x):
     for n in range(2, x + 1):
         if n ** 2 > x:
             break
+        if N % p != 0:
+            continue
         count = 0
         while x > 1 and x % n == 0:
             x //= n
