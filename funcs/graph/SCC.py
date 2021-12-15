@@ -12,20 +12,25 @@ for _ in range(M):
     G[a].append(b)
     G2[b].append(a)
 """
-
 def scc(N, G, G2):
     order = []
     seen = [0] * N
-    label = [0] * N  # 各頂点のラベルが同じなら連結
-    num_group = [0] * N # ラベルごとの頂点数
+    label = [0] * N
+    num_group = [0] * N
     
     def dfs(n):
         seen[n] = 1
-        for x in G[n]:
-            if seen[x]:
-                continue
-            dfs(x)
-        order.append(n)
+        stack = [n, n]
+        while stack:
+            n = stack.pop()
+            if seen[n]:
+                order.append(n)
+            for x in G[n]:
+                if seen[x]:
+                    continue
+                stack.append(x)
+                stack.append(x)
+                seen[x] = 1
     
     for i in range(N):
         if seen[i]: continue
@@ -36,16 +41,22 @@ def scc(N, G, G2):
         seen[n] = 1
         num_group[l] += 1
         label[n] = l
-        for x in G2[n]:
-            if seen[x]:
-                continue
-            reversed_dfs(x, l)
+
+        stack = [n]
+        while stack:
+            n = stack.pop()
+            for x in G2[n]:
+                if seen[x]:
+                    continue
+                seen[x] = 1
+                num_group[l] += 1
+                label[x] = l
+                stack.append(x)
 
     now = -1
-    for i in reversed(order):
+    for i in order[::-1]:
         if seen[i]:
             continue
         now += 1
         reversed_dfs(i, now)
-        
-    
+    return label, num_group
