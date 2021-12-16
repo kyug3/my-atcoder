@@ -14,7 +14,7 @@ class RMQ:
         while L < R:
             if R % 2 == 1:
                 ans = min(ans, self.tree[R-1])
-                r -= 1
+                R -= 1
             if L % 2 == 1:
                 ans = min(ans, self.tree[L])
                 L += 1
@@ -25,7 +25,7 @@ class RMQ:
         # change A[i] to v
         idx = i + self.size
         self.tree[idx] = v
-        while True:
+        while 1:
             idx //= 2
             if idx == 0:
                 break
