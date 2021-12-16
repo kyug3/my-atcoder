@@ -11,12 +11,12 @@ class RAQ:
         L = l + self.size
         R = r + self.size
         while L < R:
-            if R % 2 == 1:
-                self.tree[R-1] += v
+            if R % 2:
+                R -= 1
+                self.tree[R] += v
                 if self.is_mod:
-                    self.tree[R-1] %= self.mod
-                r -= 1
-            if L % 2 == 1:
+                    self.tree[R] %= self.mod
+            if L % 2:
                 self.tree[L] += v
                 if self.is_mod:
                     self.tree[L] %= self.mod

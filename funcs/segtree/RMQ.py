@@ -12,10 +12,10 @@ class RMQ:
         R = r + self.size
         ans = self.inf
         while L < R:
-            if R % 2 == 1:
-                ans = min(ans, self.tree[R-1])
+            if R % 2:
                 R -= 1
-            if L % 2 == 1:
+                ans = min(ans, self.tree[R])
+            if L % 2:
                 ans = min(ans, self.tree[L])
                 L += 1
             L //= 2; R //= 2
