@@ -1,44 +1,48 @@
-# N = 配列の長さ
-# data[N] が初期配列の 0 に対応する
-
-#N = int(input())
-#data = [0] * (2*N+1)
-
-def query(l, r):
-    # 区間[l, r) の合計を返す
-    L = l + N
-    R = r + N
-    ans = 0
-    while L < R:
-        if R % 2 == 1:
-            ans += data[R-1]
-            r -= 1
-        if L % 2 == 1:
-            ans += data[L]
-            L += 1
-        L //= 2; R //= 2
-    return ans
-
-def update(x, v):
-    # xにvを加算する
-    idx = x + N
-    data[idx] += v
-    while True:
-        idx //= 2
-        if idx == 0:
-            break
-        data[idx] += v
-
-
-# AOJ DSL_2_B
-# https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B
-
+class RSQ:
+    def __init__(self, N, is_mod=0):
+        self.size = N
+        self.tree = [0] * (2*N+1)
+        self.is_mod = is_mod
+        self.mod = 998244353
+        # self.mod = 10**9 + 7
+    
+    def query(self, l, r):
+        # return the sum of range [l, r)
+        L = l + self.size
+        R = r + self.size
+        ans = 0
+        while L < R:
+            if R % 2 == 1:
+                R -= 1
+                ans += self.tree[R]
+            if L % 2 == 1:
+                ans += self.tree[L]
+                L += 1
+            if self.is_mod:
+                ans %= self.mod
+            L //= 2; R //= 2
+        return ans
+    
+    def update(self, i, v):
+        # add v to A[i]
+        idx = i + self.size
+        self.tree[idx] += v
+        if self.is_mod:
+            self.tree[idx] %= self.mod
+        while 1:
+            idx //= 2
+            if idx == 0:
+                break
+            self.tree[idx] += v
+            if self.is_mod:
+                self.tree[idx] %= self.mod
+    
 N, Q = map(int, input().split())
-data = [0] * (2*N+1)
+tree = RSQ(N+1)
 
 for _ in range(Q):
     q, x, y = map(int, input().split())
     if q == 0:
-        update(x, y)
+        tree.update(x, y)
     else:
-        print(query(x, y+1))
+        print(tree.query(x, y+1))
