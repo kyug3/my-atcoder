@@ -1,45 +1,51 @@
-# N = 配列の長さ
-# data[N] が初期配列の 0 に対応する
+class RAQ:
+    def __init__(self, N, is_mod=0):
+        self.size = N
+        self.tree = [0] * (2*N+1)
+        self.is_mod = is_mod
+        self.mod = 998244353
+        # self.mod = 10**9 + 7
 
-#N = int(input())
-#data = [0] * (2*N+1)
-
-def update(l, r, v):
-    # 区間[l, r) に vを足す
-    L = l + N
-    R = r + N
-    while L < R:
-        if R % 2 == 1:
-            data[R-1] += v
-            #data[R-1] %= mod
-            r -= 1
-        if L % 2 == 1:
-            data[L] += v
-            #data[L] %= mod
-            L += 1
-        L //= 2; R //= 2
-
-def query(x):
-    # x の総和を求める
-    idx = x + N
-    ans = data[idx]# % mod
-    while True:
-        idx //= 2
-        if idx == 0:
-            break
-        ans += data[idx]
-        #ans %= mod
-    return ans
-
+    def update(self, l, r, v):
+        # add v to range [l, r)
+        L = l + self.size
+        R = r + self.size
+        while L < R:
+            if R % 2 == 1:
+                self.tree[R-1] += v
+                if self.is_mod:
+                    self.tree[R-1] %= self.mod
+                r -= 1
+            if L % 2 == 1:
+                self.tree[L] += v
+                if self.is_mod:
+                    self.tree[L] %= self.mod
+                L += 1
+            L //= 2; R //= 2
+    
+    def query(self, i):
+        # return the value of A[i]
+        idx = i + self.size
+        ans = self.tree[idx]
+        while 1:
+            idx //= 2
+            if idx == 0:
+                break
+            ans += self.tree[idx]
+            if self.is_mod:
+                ans %= self.mod
+        return ans
 
 # AOJ DSL_2_E
+# https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_E
 
 N, q = map(int, input().split())
-data = [0] * (2*N+1)
+tree = RAQ(N+1)
 for _ in range(q):
     tmp = list(map(int, input().split()))
     if tmp[0] == 0:
         l, r, v = tmp[1:]
-        update(l, r+1, v)
+        tree.update(l, r+1, v)
     else:
-        print(query(tmp[1]))
+        print(tree.query(tmp[1]))
+
