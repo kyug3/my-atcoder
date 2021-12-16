@@ -1,46 +1,43 @@
-# N = 配列の長さ
-# data[N] が初期配列の 0 に対応する
+class RUQ:
+    def __init__(self, N):
+        self.size = N
+        self.tree = [(-1, 2**31-1)] * (2*N + 1)
 
-#N = int(input())
-#data = [[-1, 2**31-1] for _ in range((2*N+1))]
-
-def update(l, r, v):
-    # 区間[l, r) を v に変更する
-    # vはtuple
-    L = l + N
-    R = r + N
-    while L < R:
-        if R % 2 == 1:
-            data[R-1] = v
-            r -= 1
-        if L % 2 == 1:
-            data[L] = v
-            L += 1
-        L //= 2; R //= 2
-
-def query(x):
-    # x の値を求める
-    # data[idx][0]が大きいものほど新しい
-    idx = x + N
-    ans = data[idx]
-    while True:
-        idx //= 2
-        if idx == 0:
-            break
-        if ans[0] < data[idx][0]:
-            ans = data[idx]
-    return ans[1]
-
-
-# AOJ DSL_2_D
-# https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_D
+    def update(self, l, r, v):
+        # change range [l, r) to v
+        # v is tuple
+        L = l + self.size
+        R = r + self.size
+        while L < R:
+            if R % 2:
+                R -= 1
+                self.tree[R] = v
+            if L % 2:
+                self.tree[L] = v
+                L += 1
+            L //= 2; R //= 2
+    
+    def query(self, i):
+        # return the value of A[i]
+        # data[idx][0]が大きいものほど新しい
+        idx = i + self.size
+        ans = self.tree[idx]
+        while True:
+            idx //= 2
+            if idx == 0:
+                break
+            if ans[0] < self.tree[idx][0]:
+                ans = self.tree[idx]
+        return ans[1]
+    
 
 N, Q = map(int, input().split())
-data = [(-1, 2**31-1) for _ in range(2*N+1)]
+tree = RUQ(N+1)
+
 for i in range(Q):
     q = list(map(int, input().split()))
     if q[0] == 0:
         l, r, x = q[1:]
-        update(l, r+1, (i, x))
+        tree.update(l, r+1, (i, x))
     else:
-        print(query(q[1]))
+        print(tree.query(q[1]))
