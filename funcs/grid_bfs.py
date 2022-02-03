@@ -4,20 +4,20 @@ grid = [list(input()) for _ in range(H)]
 from collections import deque
 
 def bfs(sh, sw):
-    queue = deque(((sh, sw),))
+    dq = deque(((sh, sw),))
     seen = [[-1] * W for _ in range(H)]
     seen[sh][sw] = 0
-    while queue:
-        last_h, last_w = queue.popleft()
+    while dq:
+        h, w = dq.popleft()
         for i, j in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-            h = last_h + i
-            w = last_w + j
-            if h >= H or w >= W or h < 0 or w < 0:
+            nh = h + i
+            nw = w + j
+            if nh >= H or nw >= W or nh < 0 or nw < 0:
                 continue
-            if seen[h][w] >= 0 or grid[h][w] == '#':
+            if seen[nh][nw] >= 0 or grid[nh][nw] == '#':
                 continue
-            seen[h][w] = seen[last_h][last_w] + 1
-            queue.append((h, w))
+            seen[nh][nw] = seen[h][w] + 1
+            dq.append((nh, nw))
     return seen
 
 
