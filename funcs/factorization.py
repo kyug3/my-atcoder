@@ -32,22 +32,19 @@ def factorization(x, min_fact):
 def factorization(x):
     lst = []
     if x == 1:
-        lst.append((1, 1))
         return lst
     
+    # 何度も回す場合、範囲を素数のみにするといいかも
     for n in range(2, x + 1):
-        if n ** 2 > x:
+        if n * n > x or x == 1:
             break
-        if n % x != 0:
-            continue
         count = 0
-        while x > 1 and x % n == 0:
+        while x % n == 0:
             x //= n
             count += 1
-        if count > 0:
+        if count:
             lst.append((n, count))
-        if x == 1:
-            break
+
     if x > 1:
         lst.append((x, 1))
 
