@@ -13,6 +13,10 @@ for _ in range(M):
     G2[b].append(a)
 """
 def scc(N, G, G2):
+    """
+    G: 有向グラフ
+    G2: 逆向きの有向グラフ
+    """
     order = []
     seen = [0] * N
     label = [0] * N
