@@ -3,7 +3,7 @@ from itertools import groupby
 def RLE(s: str) -> list:
     encoded = []
     for key, group in groupby(s):
-        encoded.append([key, len(list(group))])
+        encoded.append((key, len(list(group))))
     return encoded
 
 def RLD(l: list) -> str:
