@@ -1,15 +1,15 @@
 def sieve_of_eratosthenes(n):
     primes = []
-    is_prime = [True] * (n + 1)
-    is_prime[0] = False
-    is_prime[1] = False
+    is_prime = [1] * (n + 1)
+    is_prime[0] = 0
+    is_prime[1] = 0
 
     for p in range (n + 1):
         if not is_prime[p]:
             continue
         primes.append(p)
         for i in range(p*p, n+1, p):
-            is_prime[i] = False
+            is_prime[i] = 0
 
     return primes
 
