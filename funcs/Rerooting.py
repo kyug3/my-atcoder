@@ -72,7 +72,7 @@ for x in topo:
         #左右の累積を使って求めたい何かを取る
         tmp = max(leftmax[i], rightmax[i+2], D[x]) + c
 
-        #頂点yからその親に伸びる辺へのdpを更新
+        #頂点yからその親への辺についてのdpを更新
         dp[y][j] = tmp
 
 for i in range(N):
