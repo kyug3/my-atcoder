@@ -9,3 +9,7 @@
 
 .頂点に容量がある場合
 頂点を入頂点と出頂点に分け、それらをつなぎ頂点容量を持つ辺を張る
+
+
+埋める燃やす
+https://ikatakos.com/pot/programming_algorithm/graph_theory/maximum_flow/burn_bury_problem
